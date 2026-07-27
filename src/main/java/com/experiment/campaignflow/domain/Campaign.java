@@ -52,6 +52,10 @@ public class Campaign {
     @JoinColumn(name = "template_id")
     private MessageTemplate messageTemplate;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "recipient_list_id")
+    private RecipientList recipientList;
+
     public Campaign(String name, String description) {
         this.id = UUID.randomUUID();
         this.name = name;
@@ -96,6 +100,16 @@ public class Campaign {
                     "A campaign must have a message template before scheduling");
         }
 
+        if (recipientList == null) {
+            throw new InvalidCampaignStateException(
+                    "A campaign must have a recipient list before scheduling");
+        }
+
+        if (recipientList.getRecipientCount() == 0) {
+            throw new InvalidCampaignStateException(
+                    "A campaign cannot be scheduled with an empty recipient list");
+        }
+
         if (scheduledAt == null || !scheduledAt.isAfter(Instant.now())) {
             throw new IllegalArgumentException(
                     "Scheduled time must be in the future");
@@ -131,5 +145,24 @@ public class Campaign {
         }
 
         this.messageTemplate = messageTemplate;
+    }
+
+    public void assignRecipientList(RecipientList recipientList) {
+        if (status != CampaignStatus.DRAFT) {
+            throw new InvalidCampaignStateException(
+                    "A recipient list can only be assigned to a draft campaign");
+        }
+
+        if (recipientList == null) {
+            throw new IllegalArgumentException(
+                    "Recipient list is required");
+        }
+
+        if (recipientList.getRecipientCount() == 0) {
+            throw new InvalidCampaignStateException(
+                    "An empty recipient list cannot be assigned to a campaign");
+        }
+
+        this.recipientList = recipientList;
     }
 }

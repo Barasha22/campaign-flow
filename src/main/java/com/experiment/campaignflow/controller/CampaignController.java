@@ -25,63 +25,73 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/campaigns")
 public class CampaignController {
 
-    private final CampaignService campaignService;
+        private final CampaignService campaignService;
 
-    public CampaignController(CampaignService campaignService) {
-        this.campaignService = campaignService;
-    }
+        public CampaignController(CampaignService campaignService) {
+                this.campaignService = campaignService;
+        }
 
-    @PostMapping
-    public ResponseEntity<CampaignResponse> createCampaign(
-            @Valid @RequestBody CreateCampaignRequest request) {
-        CampaignResponse response = campaignService.createCampaign(request);
+        @PostMapping
+        public ResponseEntity<CampaignResponse> createCampaign(
+                        @Valid @RequestBody CreateCampaignRequest request) {
+                CampaignResponse response = campaignService.createCampaign(request);
 
-        return ResponseEntity
-                .created(URI.create("/api/campaigns/" + response.id()))
-                .body(response);
-    }
+                return ResponseEntity
+                                .created(URI.create("/api/campaigns/" + response.id()))
+                                .body(response);
+        }
 
-    @GetMapping
-    public ResponseEntity<List<CampaignResponse>> getCampaigns() {
-        return ResponseEntity.ok(
-                campaignService.getCampaigns());
-    }
+        @GetMapping
+        public ResponseEntity<List<CampaignResponse>> getCampaigns() {
+                return ResponseEntity.ok(
+                                campaignService.getCampaigns());
+        }
 
-    @GetMapping("/{campaignId}")
-    public ResponseEntity<CampaignResponse> getCampaign(
-            @PathVariable UUID campaignId) {
-        return ResponseEntity.ok(
-                campaignService.getCampaign(campaignId));
-    }
+        @GetMapping("/{campaignId}")
+        public ResponseEntity<CampaignResponse> getCampaign(
+                        @PathVariable UUID campaignId) {
+                return ResponseEntity.ok(
+                                campaignService.getCampaign(campaignId));
+        }
 
-    @PutMapping("/{campaignId}")
-    public ResponseEntity<CampaignResponse> updateCampaign(
-            @PathVariable UUID campaignId,
-            @Valid @RequestBody UpdateCampaignRequest request) {
-        return ResponseEntity.ok(
-                campaignService.updateCampaign(campaignId, request));
-    }
+        @PutMapping("/{campaignId}")
+        public ResponseEntity<CampaignResponse> updateCampaign(
+                        @PathVariable UUID campaignId,
+                        @Valid @RequestBody UpdateCampaignRequest request) {
+                return ResponseEntity.ok(
+                                campaignService.updateCampaign(campaignId, request));
+        }
 
-    @PostMapping("/{campaignId}/schedule")
-    public ResponseEntity<CampaignResponse> scheduleCampaign(
-            @PathVariable UUID campaignId,
-            @Valid @RequestBody ScheduleCampaignRequest request) {
-        return ResponseEntity.ok(
-                campaignService.scheduleCampaign(campaignId, request));
-    }
+        @PostMapping("/{campaignId}/schedule")
+        public ResponseEntity<CampaignResponse> scheduleCampaign(
+                        @PathVariable UUID campaignId,
+                        @Valid @RequestBody ScheduleCampaignRequest request) {
+                return ResponseEntity.ok(
+                                campaignService.scheduleCampaign(campaignId, request));
+        }
 
-    @PostMapping("/{campaignId}/cancel")
-    public ResponseEntity<CampaignResponse> cancelCampaign(
-            @PathVariable UUID campaignId) {
-        return ResponseEntity.ok(
-                campaignService.cancelCampaign(campaignId));
-    }
+        @PostMapping("/{campaignId}/cancel")
+        public ResponseEntity<CampaignResponse> cancelCampaign(
+                        @PathVariable UUID campaignId) {
+                return ResponseEntity.ok(
+                                campaignService.cancelCampaign(campaignId));
+        }
 
-    @PutMapping("/{campaignId}/template/{templateId}")
-    public ResponseEntity<CampaignResponse> assignTemplate(
-            @PathVariable UUID campaignId,
-            @PathVariable UUID templateId) {
-        return ResponseEntity.ok(
-                campaignService.assignTemplate(campaignId, templateId));
-    }
+        @PutMapping("/{campaignId}/template/{templateId}")
+        public ResponseEntity<CampaignResponse> assignTemplate(
+                        @PathVariable UUID campaignId,
+                        @PathVariable UUID templateId) {
+                return ResponseEntity.ok(
+                                campaignService.assignTemplate(campaignId, templateId));
+        }
+
+        @PutMapping("/{campaignId}/recipient-list/{recipientListId}")
+        public ResponseEntity<CampaignResponse> assignRecipientList(
+                        @PathVariable UUID campaignId,
+                        @PathVariable UUID recipientListId) {
+                return ResponseEntity.ok(
+                                campaignService.assignRecipientList(
+                                                campaignId,
+                                                recipientListId));
+        }
 }

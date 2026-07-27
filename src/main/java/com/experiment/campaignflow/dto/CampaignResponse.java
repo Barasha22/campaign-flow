@@ -7,25 +7,28 @@ import com.experiment.campaignflow.domain.Campaign;
 import com.experiment.campaignflow.domain.CampaignStatus;
 
 public record CampaignResponse(
-        UUID id,
-        String name,
-        String description,
-        CampaignStatus status,
-        Instant scheduledAt,
-        TemplateSummaryResponse template,
-        Instant createdAt,
-        Instant updatedAt) {
+                UUID id,
+                String name,
+                String description,
+                CampaignStatus status,
+                Instant scheduledAt,
+                TemplateSummaryResponse template,
+                RecipientListSummaryResponse recipientList,
+                Instant createdAt,
+                Instant updatedAt) {
 
-    public static CampaignResponse from(Campaign campaign) {
-        return new CampaignResponse(
-                campaign.getId(),
-                campaign.getName(),
-                campaign.getDescription(),
-                campaign.getStatus(),
-                campaign.getScheduledAt(),
-                TemplateSummaryResponse.from(
-                        campaign.getMessageTemplate()),
-                campaign.getCreatedAt(),
-                campaign.getUpdatedAt());
-    }
+        public static CampaignResponse from(Campaign campaign) {
+                return new CampaignResponse(
+                                campaign.getId(),
+                                campaign.getName(),
+                                campaign.getDescription(),
+                                campaign.getStatus(),
+                                campaign.getScheduledAt(),
+                                TemplateSummaryResponse.from(
+                                                campaign.getMessageTemplate()),
+                                RecipientListSummaryResponse.from(
+                                                campaign.getRecipientList()),
+                                campaign.getCreatedAt(),
+                                campaign.getUpdatedAt());
+        }
 }

@@ -1,0 +1,6 @@
+email,firstName,lastName
+aiko@example.com,Aiko,Tanaka
+ken@example.com,Ken,Sato
+yuki@example.com,Yuki,Suzuki
+invalid-email,Invalid,Person
+aiko@example.com,Duplicate,Person

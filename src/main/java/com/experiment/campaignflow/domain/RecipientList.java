@@ -69,4 +69,13 @@ public class RecipientList {
         this.name = name;
         this.description = description;
     }
+
+    public void incrementRecipientCountBy(long amount) {
+        if (amount < 0) {
+            throw new IllegalArgumentException(
+                    "Recipient count increment cannot be negative");
+        }
+
+        recipientCount += amount;
+    }
 }
