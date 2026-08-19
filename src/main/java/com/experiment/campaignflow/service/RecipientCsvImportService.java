@@ -211,7 +211,7 @@ public class RecipientCsvImportService {
         }
     }
 
-    private void validateHeaders(CSVParser parser) {
+    void validateHeaders(CSVParser parser) {
         Set<String> headers = parser.getHeaderMap().keySet();
 
         if (!headers.containsAll(REQUIRED_HEADERS)) {
@@ -232,7 +232,7 @@ public class RecipientCsvImportService {
             return "Email must not exceed 320 characters";
         }
 
-        if (!SIMPLE_EMAIL_PATTERN.matcher(email).matches()) {
+        if (!isValidEmail(email)) {
             return "Invalid email address";
         }
 
@@ -247,7 +247,7 @@ public class RecipientCsvImportService {
         return null;
     }
 
-    private String normalize(String value) {
+    String normalize(String value) {
         if (value == null) {
             return null;
         }
@@ -255,12 +255,19 @@ public class RecipientCsvImportService {
         return value.trim().toLowerCase(Locale.ROOT);
     }
 
-    private String nullableTrim(String value) {
+    String nullableTrim(String value) {
         if (value == null || value.isBlank()) {
             return null;
         }
 
         return value.trim();
+    }
+
+    boolean isValidEmail(String email) {
+        return email != null
+                && !email.isBlank()
+                && email.length() <= 320
+                && SIMPLE_EMAIL_PATTERN.matcher(email).matches();
     }
 
     private record ParsedRecipientRow(

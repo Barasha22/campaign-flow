@@ -1,0 +1,17 @@
+{
+  "Rules": [
+    {
+      "ID": "expire-abandoned-recipient-imports",
+      "Status": "Enabled",
+      "Filter": {
+        "Prefix": "recipient-imports/pending/"
+      },
+      "Expiration": {
+        "Days": 7
+      },
+      "AbortIncompleteMultipartUpload": {
+        "DaysAfterInitiation": 1
+      }
+    }
+  ]
+}

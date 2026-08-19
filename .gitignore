@@ -37,4 +37,5 @@ target/
 .env
 .DS_Store
 sample-data/
+data/
 
