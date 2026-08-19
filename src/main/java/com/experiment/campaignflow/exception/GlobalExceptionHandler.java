@@ -153,4 +153,17 @@ public class GlobalExceptionHandler {
                                 .badRequest()
                                 .body(response);
         }
+
+        @ExceptionHandler(RecipientImportJobNotFoundException.class)
+        public ResponseEntity<ApiErrorResponse> handleImportJobNotFound(
+                        RecipientImportJobNotFoundException exception,
+                        WebRequest request) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                                new ApiErrorResponse(
+                                                Instant.now(),
+                                                HttpStatus.NOT_FOUND.value(),
+                                                HttpStatus.NOT_FOUND.getReasonPhrase(),
+                                                exception.getMessage(),
+                                                extractPath(request)));
+        }
 }
